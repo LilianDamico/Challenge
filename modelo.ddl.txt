@@ -1,0 +1,101 @@
+-- Gerado por Oracle SQL Developer Data Modeler 23.1.0.087.0806
+--   em:        2024-05-06 11:32:42 BRT
+--   site:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+-- predefined type, no DDL - MDSYS.SDO_GEOMETRY
+
+-- predefined type, no DDL - XMLTYPE
+
+CREATE TABLE conta_bancaria (
+    cd_id_conta_bancaria       VARCHAR2(14) NOT NULL,
+    vl_saldo_conta_bancaria    NUMBER(18, 2) NOT NULL,
+    dt_abertura_conta_bancaria DATE NOT NULL,
+    cd_status_conta_bancaria   VARCHAR2(10) NOT NULL,
+    cd_tipo_conta_bancaria     VARCHAR2(10) NOT NULL,
+    cd_id_usuario              VARCHAR2(14) NOT NULL
+);
+
+ALTER TABLE conta_bancaria ADD CONSTRAINT conta_bancaria_pk PRIMARY KEY ( cd_id_conta_bancaria );
+
+CREATE TABLE transacao (
+    cd_id_usuario         VARCHAR2(14) NOT NULL,
+    cd_id_conta_bancaria  VARCHAR2(14) NOT NULL,
+    cd_id_transacao       INTEGER NOT NULL,
+    cd_tipo_transacao     INTEGER NOT NULL,
+    vl_transacao          NUMBER(18, 2) NOT NULL,
+    dt_transacao          DATE NOT NULL,
+    cd_status_transacao   VARCHAR2(12) NOT NULL,
+    cd_id_usuario_origem  VARCHAR2(14) NOT NULL,
+    cd_id_usuario_destino VARCHAR2(14) NOT NULL
+);
+
+ALTER TABLE transacao ADD CONSTRAINT transacao_pk PRIMARY KEY ( cd_id_usuario,
+                                                                cd_id_conta_bancaria );
+
+CREATE TABLE usuario (
+    cd_id_usuario             VARCHAR2(14) NOT NULL,
+    nm_nome_usuario           VARCHAR2(50) NOT NULL,
+    cd_cpf_cnpj_usuario       VARCHAR2(18) NOT NULL,
+    nm_email_usuario          VARCHAR2(14) NOT NULL,
+    cd_password_usuario       VARCHAR2(10) NOT NULL,
+    nm_tipo_usuario           VARCHAR2(10) NOT NULL,
+    vl_saldo_carteira_usuario NUMBER(18, 2) NOT NULL
+);
+
+ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( cd_id_usuario );
+
+ALTER TABLE transacao
+    ADD CONSTRAINT transacao_conta_bancaria_fk FOREIGN KEY ( cd_id_conta_bancaria )
+        REFERENCES conta_bancaria ( cd_id_conta_bancaria );
+
+ALTER TABLE transacao
+    ADD CONSTRAINT transacao_usuario_fk FOREIGN KEY ( cd_id_usuario )
+        REFERENCES usuario ( cd_id_usuario );
+
+
+
+-- Relat rio do Resumo do Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                             3
+-- CREATE INDEX                             0
+-- ALTER TABLE                              5
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           0
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                   0
+-- WARNINGS                                 0
